@@ -5,6 +5,6 @@ pandas
 scikit-learn
 joblib
 requests
-tensorflow
+tensorflow==2.13.0
 pytz
 rdflib
