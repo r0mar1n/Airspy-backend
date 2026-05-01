@@ -1,9 +1,9 @@
 fastapi
 uvicorn
-numpy
-pandas
-scikit-learn
-joblib
+numpy==1.23.5
+pandas==1.5.3
+scikit-learn==1.2.2
+joblib==1.2.0
 requests
 tensorflow==2.13.0
 pytz
