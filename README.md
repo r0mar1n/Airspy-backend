@@ -69,7 +69,7 @@ React + TypeScript dashboard responsible for:
 - RDF graph visualization
 - API integration
 
-**Repository:** https://github.com/r0mar1n/AirSpy-Frontend
+**Repository:** https://github.com/r0mar1n/AirSpy
 
 **Deployment:** Vercel
 
