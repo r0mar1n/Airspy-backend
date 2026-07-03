@@ -2,7 +2,7 @@
 
 🔗 **Live Demo:** https://aqi-prediction-system-with-rdf-expl.vercel.app/
 
-🔗 **Frontend Repository:** https://github.com/r0mar1n/AirSpy-Frontend
+🔗 **Frontend Repository:** https://github.com/r0mar1n/AirSpy
 
 AirSpy is an end-to-end air quality forecasting system that predicts AQI trends across Indian cities up to **72 hours ahead** — and explains *why*, not just *what*. A deep learning ensemble generates the forecast, while an RDF knowledge graph layer traces each prediction back to the pollutants and environmental conditions driving it.
 
