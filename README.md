@@ -1,58 +1,204 @@
-# AirSpy: Explainable AQI Forecasting System
+# AirSpy: Explainable AQI Forecasting System (Backend)
 
-🔗 **[Live Demo](https://aqi-prediction-system-with-rdf-expl.vercel.app/)**
+🔗 **Live Demo:** https://aqi-prediction-system-with-rdf-expl.vercel.app/
 
-AirSpy is an end-to-end air quality forecasting system that predicts AQI trends across Indian cities up to 72 hours ahead — and explains *why*, not just *what*. A deep learning ensemble generates the forecast, while an RDF knowledge graph layer traces each prediction back to the pollutants and environmental conditions driving it.
+🔗 **Frontend Repository:** https://github.com/r0mar1n/AirSpy-Frontend
 
-> This repo contains the **frontend** of the system. The model and backend (FastAPI + TensorFlow/Keras) are kept in a separate, closed-source repository. The live demo above runs the complete system end-to-end, including the live backend.
+AirSpy is an end-to-end air quality forecasting system that predicts AQI trends across Indian cities up to **72 hours ahead** — and explains *why*, not just *what*. A deep learning ensemble generates the forecast, while an RDF knowledge graph layer traces each prediction back to the pollutants and environmental conditions driving it.
 
-## How the system works
+> This repository contains the **backend** of the system. It powers the live application by handling data preprocessing, AQI prediction, RDF knowledge graph generation, and REST APIs consumed by the React frontend. The frontend is maintained in a separate public repository linked above.
 
-1. **User selects a city or location** on the dashboard
-2. **A deep learning ensemble** (LSTM, BiLSTM, GRU) forecasts AQI for the next 72 hours, trained on 26,000+ records from the CPCB dataset containing data from 4 Indian cities for better generalization and over t he time period of an entire year 2024 to encounter seasonal changes as well as the affect of geographgical location on them.
-3. **An RDF knowledge graph** is built around the prediction, linking the forecasted AQI to the specific pollutants and conditions contributing to it
-4. **The dashboard renders** the forecast, a pollutant breakdown, and an explainability view — so the prediction isn't just a number, it comes with reasoning
+---
 
-Model performance: 85–90% AQI category accuracy and 80–88% trend direction accuracy across 72-hour forecasts. Like any real-world forecasting model, predictions can occasionally diverge from actual conditions — particularly for locations or conditions underrepresented in the training data.
+# How the system works
 
-## What this repo contains
+1. **The frontend sends a prediction request** to the FastAPI backend.
+2. **Historical weather and pollutant data are preprocessed** before being passed into a weighted deep learning ensemble consisting of **LSTM, BiLSTM, and GRU** models.
+3. **The ensemble forecasts AQI** for the next 72 hours using models trained on **26,000+ CPCB records** collected across four Indian cities throughout 2024, allowing the model to capture seasonal and geographical variations.
+4. **An RDF knowledge graph** is generated around the prediction, linking the forecasted AQI to the pollutants and environmental conditions contributing to it.
+5. **The backend returns** the AQI forecast, pollutant breakdown, and explainability data through REST APIs, which are visualized by the frontend dashboard.
 
-This is the **frontend dashboard** — a React + TypeScript app that:
-- Lets users pick a city/location and view a live AQI forecast
-- Displays the predicted AQI alongside the 72-hour trend
-- Shows a breakdown of the dominant pollutants behind the prediction
-- Visualizes the RDF knowledge graph explaining the prediction
-- Talks to the AQI prediction backend over a REST API
+### Model Performance
 
-## Tech stack
+- **85–90% AQI Category Accuracy**
+- **80–88% Trend Direction Accuracy**
 
-- **React + TypeScript** (Vite)
-- **Tailwind CSS** + shadcn/ui components
-- REST API calls to a FastAPI backend running the forecasting model
+Like any real-world forecasting model, predictions may occasionally differ from actual conditions, particularly for locations or environmental scenarios that are underrepresented in the training data.
 
-## Architecture
+---
+
+# What this repository contains
+
+This repository contains the complete backend powering AirSpy, including:
+
+- FastAPI REST APIs
+- Deep learning inference pipeline
+- AQI preprocessing pipeline
+- Weighted LSTM–BiLSTM–GRU ensemble model
+- RDF knowledge graph generation
+- SPARQL query processing
+- Explainability layer
+- Backend deployment configuration for Render
+
+---
+
+# Tech Stack
+
+- Python
+- FastAPI
+- TensorFlow / Keras
+- Pandas
+- NumPy
+- Scikit-learn
+- RDFLib
+- SPARQL
+- Uvicorn
+
+---
+
+# Project Structure
+
+AirSpy is split into two repositories.
+
+## Frontend
+
+React + TypeScript dashboard responsible for:
+
+- User interface
+- AQI visualization
+- RDF graph visualization
+- API integration
+
+**Repository:** https://github.com/r0mar1n/AirSpy-Frontend
+
+**Deployment:** Vercel
+
+---
+
+## Backend (This Repository)
+
+Responsible for:
+
+- Data preprocessing
+- Deep learning inference
+- AQI forecasting
+- RDF knowledge graph generation
+- Explainability APIs
+- REST API endpoints
+
+**Deployment:** Render
+
+---
+
+# Architecture
 
 ![AirSpy Architecture](./new_flochart.jpeg)
 
-## Running locally
+---
 
-**Requirements:** Node.js v16+
+# Running Locally
+
+## Requirements
+
+- Python 3.9+
+- pip
+
+### 1. Clone the repository
 
 ```bash
-npm install
-npm run dev
+git clone https://github.com/r0mar1n/AirSpy-Backend.git
+cd AirSpy-Backend
 ```
 
-Open the local URL Vite prints in your terminal (usually `http://localhost:8080`).
+### 2. Create a virtual environment
 
-### Environment setup
-
-Create a `.env` file in the project root:
-
-```
-VITE_API_URL=http://localhost:8000
+```bash
+python -m venv venv
 ```
 
-Point this at wherever the backend is running. A `.env.example` is included as a template.
+### 3. Activate the virtual environment
 
-> **Note:** This frontend needs a running instance of the AirSpy backend to actually return predictions. Without it, API calls will fail. The live demo above already includes a deployed backend, so no local setup is needed to see the full system in action.
+**Windows**
+
+```bash
+venv\Scripts\activate
+```
+
+**macOS / Linux**
+
+```bash
+source venv/bin/activate
+```
+
+### 4. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Start the FastAPI server
+
+```bash
+uvicorn main:app --reload
+```
+
+### 6. Open the interactive API documentation
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# Project Requirements
+
+- Keep the **models/** folder in the project root.
+- Ensure all trained model files are present before starting the server.
+- Python 3.9 or newer is recommended.
+
+---
+
+# API
+
+## Main Endpoint
+
+```
+POST /predict
+```
+
+Returns:
+
+- Predicted AQI
+- 72-hour AQI forecast
+- Pollutant contribution analysis
+- RDF explainability data
+
+Additional API endpoints are available through the automatically generated FastAPI documentation.
+
+---
+
+# Live Demo
+
+The complete AirSpy application is publicly deployed.
+
+🔗 **https://aqi-prediction-system-with-rdf-expl.vercel.app/**
+
+### Deployment Architecture
+
+**Frontend**
+- React + TypeScript
+- Hosted on **Vercel**
+
+**Backend**
+- FastAPI
+- Hosted on **Render**
+
+The frontend communicates with this backend through REST APIs to generate live AQI forecasts and explainable insights.
+
+---
+
+# Related Repository
+
+The frontend dashboard for AirSpy is available here:
+
+🔗 **https://github.com/r0mar1n/AirSpy**
